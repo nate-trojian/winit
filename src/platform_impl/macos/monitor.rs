@@ -202,6 +202,13 @@ impl MonitorHandle {
         position.to_physical(self.scale_factor())
     }
 
+    #[inline]
+    pub fn is_active(&self) -> bool {
+        let MonitorHandle(display_id) = *self;
+        let display = CGDisplay::new(display_id);
+        display.is_active()
+    }
+
     pub fn scale_factor(&self) -> f64 {
         run_on_main(|mtm| {
             match self.ns_screen(mtm) {

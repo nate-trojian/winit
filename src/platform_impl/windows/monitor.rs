@@ -4,10 +4,10 @@ use std::{io, mem, ptr};
 
 use windows_sys::Win32::Foundation::{BOOL, HWND, LPARAM, POINT, RECT};
 use windows_sys::Win32::Graphics::Gdi::{
-    EnumDisplayMonitors, EnumDisplaySettingsExW, GetMonitorInfoW, MonitorFromPoint,
-    MonitorFromWindow, DEVMODEW, DM_BITSPERPEL, DM_DISPLAYFREQUENCY, DM_PELSHEIGHT, DM_PELSWIDTH,
-    ENUM_CURRENT_SETTINGS, HDC, HMONITOR, MONITORINFO, MONITORINFOEXW, MONITOR_DEFAULTTONEAREST,
-    MONITOR_DEFAULTTOPRIMARY,
+    EnumDisplayDevicesW, EnumDisplayMonitors, EnumDisplaySettingsExW, GetMonitorInfoW,
+    MonitorFromPoint, MonitorFromWindow, DEVMODEW, DISPLAY_DEVICEW, DISPLAY_DEVICE_ACTIVE,
+    DM_BITSPERPEL, DM_DISPLAYFREQUENCY, DM_PELSHEIGHT, DM_PELSWIDTH, ENUM_CURRENT_SETTINGS, HDC,
+    HMONITOR, MONITORINFO, MONITORINFOEXW, MONITOR_DEFAULTTONEAREST, MONITOR_DEFAULTTOPRIMARY,
 };
 
 use super::util::decode_wide;
@@ -200,6 +200,21 @@ impl MonitorHandle {
                 PhysicalPosition { x: rc_monitor.left, y: rc_monitor.top }
             })
             .unwrap_or(PhysicalPosition { x: 0, y: 0 })
+    }
+
+    #[inline]
+    pub fn is_active(&self) -> bool {
+        let monitor_info = get_monitor_info(self.0).ok()?;
+        let device_name = monitor_info.szDevice.as_ptr();
+        unsafe {
+            let mut display_device: DISPLAY_DEVICEW = mem::zeroed();
+            display_device.cb = mem::size_of_val(&display_device) as u32;
+            if EnumDisplayDevicesW(device_name, 0, &mut display_device, 0) == false.into() {
+                false
+            } else {
+                has_flag(display_device.stateFlags, DISPLAY_DEVICE_ACTIVE)
+            }
+        }
     }
 
     #[inline]

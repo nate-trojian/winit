@@ -183,6 +183,11 @@ impl MonitorHandle {
         (bounds.origin.x as f64, bounds.origin.y as f64).into()
     }
 
+    pub fn is_active(&self) -> bool {
+        // TODO: Actually figure this out
+        true
+    }
+
     pub fn scale_factor(&self) -> f64 {
         self.ui_screen.get_on_main(|ui_screen| ui_screen.nativeScale()) as f64
     }

@@ -241,6 +241,11 @@ impl MonitorHandle {
     }
 
     #[inline]
+    pub fn is_active(&self) -> bool {
+        x11_or_wayland!(match self; MonitorHandle(m) => m.is_active())
+    }
+
+    #[inline]
     pub fn refresh_rate_millihertz(&self) -> Option<u32> {
         x11_or_wayland!(match self; MonitorHandle(m) => m.refresh_rate_millihertz())
     }

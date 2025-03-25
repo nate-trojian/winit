@@ -1085,6 +1085,10 @@ impl MonitorHandle {
         (0, 0).into()
     }
 
+    pub fn is_active(&self) -> bool {
+        true
+    }
+
     pub fn scale_factor(&self) -> f64 {
         self.app.config().density().map(|dpi| dpi as f64 / 160.0).unwrap_or(1.0)
     }

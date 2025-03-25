@@ -175,6 +175,10 @@ impl MonitorHandle {
         self.position.into()
     }
 
+    pub fn is_active(&self) -> bool {
+        true
+    }
+
     pub fn refresh_rate_millihertz(&self) -> Option<u32> {
         self.refresh_rate_millihertz
     }

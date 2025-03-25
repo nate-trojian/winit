@@ -200,6 +200,10 @@ impl MonitorHandle {
         (0, 0).into()
     }
 
+    pub fn is_active(&self) -> bool {
+        true
+    }
+
     pub fn scale_factor(&self) -> f64 {
         1.0 // TODO
     }

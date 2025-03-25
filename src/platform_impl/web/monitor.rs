@@ -14,6 +14,10 @@ impl MonitorHandle {
         unreachable!()
     }
 
+    pub fn is_active(&self) -> bool {
+        unreachable!()
+    }
+
     pub fn name(&self) -> Option<String> {
         unreachable!()
     }

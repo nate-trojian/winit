@@ -76,6 +76,11 @@ impl MonitorHandle {
     }
 
     #[inline]
+    pub fn is_active(&self) -> bool {
+        false
+    }
+
+    #[inline]
     pub fn refresh_rate_millihertz(&self) -> Option<u32> {
         let output_data = self.proxy.data::<OutputData>().unwrap();
         output_data.with_output_info(|info| {

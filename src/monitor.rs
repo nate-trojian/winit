@@ -126,6 +126,12 @@ impl MonitorHandle {
         self.inner.position()
     }
 
+    /// Returns `true` if the monitor is currently active.
+    #[inline]
+    pub fn is_active(&self) -> bool {
+        self.inner.is_active()
+    }
+
     /// The monitor refresh rate used by the system.
     ///
     /// Return `Some` if succeed, or `None` if failed, which usually happens when the monitor
